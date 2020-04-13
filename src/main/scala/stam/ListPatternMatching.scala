@@ -1,3 +1,5 @@
+package stam
+
 import scala.annotation.tailrec
 
 object ListPatternMatching {
@@ -6,6 +8,8 @@ object ListPatternMatching {
     println(filter(List(1,2,3,4,5,6,7), (p: Int) => p > 2 && p < 6))
     println(filter(List(1), (p: Int) => p == 1))
     println(filter(List(1,2,3,4,5), (p: Int) => p < 1))
+
+    println(insertionSort(List(7,3,9,2)))
   }
 
   def filter[T](list: List[T], matchRange: T => Boolean): List[T] = {
@@ -24,5 +28,19 @@ object ListPatternMatching {
     }
 
     loop (Nil, list).reverse
+  }
+
+  def insertionSort(list: List[Int]) : List[Int] = {
+
+    def insert(x: Int, xs: List[Int]): List[Int] = xs match {
+      case Nil => List(x)
+      case y :: _ if x <= y => x :: xs
+      case y :: tail if x > y => y :: insert(x, tail)
+    }
+
+    list match  {
+      case Nil => Nil
+      case head :: tail => insert(head, insertionSort(tail))
+    }
   }
 }
