@@ -10,6 +10,14 @@ object ListPatternMatching {
     println(filter(List(1,2,3,4,5), (p: Int) => p < 1))
 
     println(insertionSort(List(7,3,9,2)))
+
+    val chars = List('a', 'b', 'a')
+
+    println(
+      chars.sorted
+        .groupMapReduce(c => c)(c => (c,1))((p1,p2) => (p1._1, p1._2 + p2._2))
+        .values.toList.sorted((p1:(Char, Int),p2:(Char, Int)) => p1._2 - p2._2)
+    )
   }
 
   def filter[T](list: List[T], matchRange: T => Boolean): List[T] = {
