@@ -31,7 +31,7 @@ object ListPatternMatching {
     println(
       chars.sorted
         .groupMapReduce(c => c)(c => (c,1))((p1,p2) => (p1._1, p1._2 + p2._2))
-        .values.toList.sorted
+        .values.toList.sorted // calls MyPairOrdering -> this is extended implicitly with MyPairOrdering
     )
 
     println(flattern(List(List(1,1), 2, List(3, List(5,8)))))
