@@ -1,5 +1,7 @@
 package stam
 
+import java.util.NoSuchElementException
+
 import scala.annotation.tailrec
 
 object ListPatternMatching {
@@ -18,6 +20,31 @@ object ListPatternMatching {
         .groupMapReduce(c => c)(c => (c,1))((p1,p2) => (p1._1, p1._2 + p2._2))
         .values.toList.sorted((p1:(Char, Int),p2:(Char, Int)) => p1._2 - p2._2)
     )
+
+    println(flattern(List(List(1,1), 2, List(3, List(5,8)))))
+
+    concat(List(1,2,3), List(4))
+  }
+
+  def concat[T](xs: List[T], ys: List[T]): List[T] =
+    (xs foldRight ys) (_ :: _)
+
+  def removeAt[T](xs : List[T], n: Int) : List[T] = {
+    if (n < 0 || n >= xs.length) throw new NoSuchElementException
+    xs match {
+      case head :: _ if n==0 => List(head)
+      case _ :: tail => removeAt(tail, n -1) ::: tail.tail
+    }
+  }
+
+  def flattern(xs :  List[Any]): List[Any] =  {
+    xs match {
+      case List() => List()
+      case y :: xs => y match {
+          case l:List[Any] => flattern(l) ::: flattern(xs)
+          case any => List(any) ::: flattern(xs)
+        }
+    }
   }
 
   def filter[T](list: List[T], matchRange: T => Boolean): List[T] = {
