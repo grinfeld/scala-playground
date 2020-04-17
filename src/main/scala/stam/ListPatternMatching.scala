@@ -27,7 +27,9 @@ object ListPatternMatching {
 
     println(flattern(List(List(1,1), 2, List(3, List(5,8)))))
 
-    concat(List(1,2,3), List(4))
+    println(insertionSort(List(10,4,14,1,5)))
+
+    println(concat(List(1,2,3), List(4)))
   }
 
   def concat[T](xs: List[T], ys: List[T]): List[T] =
