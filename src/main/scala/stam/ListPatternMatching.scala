@@ -3,10 +3,19 @@ package stam
 import java.util.NoSuchElementException
 
 import scala.annotation.tailrec
+import scala.math.Ordering
 
 object ListPatternMatching {
 
+  trait MyPairOrdering extends Ordering[(Char, Int)] {
+    def compare(p1: (Char, Int), p2: (Char, Int)): Int =
+      Ordering.Int.compare(p1._2, p2._2)
+  }
+
+  implicit object ListPatternMatching extends MyPairOrdering
+
   def main(args: Array[String]): Unit = {
+
     println(filterByRange(List(1,2,3,4,5,6,7), (p: Int) => p > 2 && p < 6))
     println(filterByRange(List(1), (p: Int) => p == 1))
     println(filterByRange(List(1,2,3,4,5), (p: Int) => p < 1))
@@ -22,7 +31,7 @@ object ListPatternMatching {
     println(
       chars.sorted
         .groupMapReduce(c => c)(c => (c,1))((p1,p2) => (p1._1, p1._2 + p2._2))
-        .values.toList.sorted((p1:(Char, Int),p2:(Char, Int)) => p1._2 - p2._2)
+        .values.toList.sorted
     )
 
     println(flattern(List(List(1,1), 2, List(3, List(5,8)))))
