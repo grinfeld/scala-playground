@@ -7,9 +7,13 @@ import scala.annotation.tailrec
 object ListPatternMatching {
 
   def main(args: Array[String]): Unit = {
-    println(filter(List(1,2,3,4,5,6,7), (p: Int) => p > 2 && p < 6))
-    println(filter(List(1), (p: Int) => p == 1))
-    println(filter(List(1,2,3,4,5), (p: Int) => p < 1))
+    println(filterByRange(List(1,2,3,4,5,6,7), (p: Int) => p > 2 && p < 6))
+    println(filterByRange(List(1), (p: Int) => p == 1))
+    println(filterByRange(List(1,2,3,4,5), (p: Int) => p < 1))
+
+    println(filterByRangeOther(List(1,2,3,4,5,6,7))(p => p > 2 && p < 6))
+    println(filterByRangeOther(List(1))(p => p == 1))
+    println(filterByRangeOther(List(1,2,3,4,5))(p => p < 1))
 
     println(insertionSort(List(7,3,9,2)))
 
@@ -47,7 +51,15 @@ object ListPatternMatching {
     }
   }
 
-  def filter[T](list: List[T], matchRange: T => Boolean): List[T] = {
+  def filterByRangeOther[T](list: List[T])(matchRange: T => Boolean): List[T] = {
+    val from = list.indexWhere(matchRange)
+    val res = list.dropWhile(t => !matchRange(t)).takeWhile(matchRange)
+    if (res == Nil) Nil
+    else if (from <= 1) res
+    else list(from-1) :: res
+  }
+
+  def filterByRange[T](list: List[T], matchRange: T => Boolean): List[T] = {
     @tailrec
     def loop (res: List[T], working: List[T]): List[T] = working match {
       // case -> a.k.k.a instance of
