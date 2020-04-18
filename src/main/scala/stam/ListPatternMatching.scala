@@ -49,8 +49,8 @@ object ListPatternMatching {
   }
 
   def isPrime(n :Int): Boolean = {
-    if (n == 1 || n == 2 || n == 3) return true
-    (n/2-1 until n).forall(x => n % x != 0)
+    if (n == 1 || n == 2 || n == 3) true
+    else (n/2-1 until n).forall(x => n % x != 0)
   }
 
   def concat[T](xs: List[T], ys: List[T]): List[T] =
