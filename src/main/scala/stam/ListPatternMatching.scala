@@ -39,6 +39,18 @@ object ListPatternMatching {
     println(insertionSort(List(10,4,14,1,5)))
 
     println(concat(List(1,2,3), List(4)))
+
+    println(isPrime(2))
+    println(isPrime(3))
+    println(isPrime(8))
+    println(isPrime(11))
+    println(isPrime(14))
+    println(isPrime(23))
+  }
+
+  def isPrime(n :Int): Boolean = {
+    if (n == 1 || n == 2 || n == 3) return true
+    (n/2-1 until n).forall(x => n % x != 0)
   }
 
   def concat[T](xs: List[T], ys: List[T]): List[T] =
