@@ -46,6 +46,14 @@ object ListPatternMatching {
     println(isPrime(11))
     println(isPrime(14))
     println(isPrime(23))
+
+    println(sumOfSomething(5))
+  }
+
+
+  def sumOfSomething(n: Int): List[(Int, Int)] = {
+    (1 until n).flatMap(i =>
+      (1 until i) map (j => (i, j))).filter(p => isPrime(p._1 + p._2)).toList
   }
 
   def isPrime(n :Int): Boolean = {
