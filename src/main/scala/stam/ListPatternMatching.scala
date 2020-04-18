@@ -48,12 +48,21 @@ object ListPatternMatching {
     println(isPrime(23))
 
     println(sumOfSomething(5))
+    println(sumOfSomethingElse(5))
   }
 
 
-  def sumOfSomething(n: Int): List[(Int, Int)] = {
+  def sumOfSomething(n: Int): Seq[(Int, Int)] = {
     (1 until n).flatMap(i =>
-      (1 until i) map (j => (i, j))).filter(p => isPrime(p._1 + p._2)).toList
+      (1 until i) map (j => (i, j))).filter(p => isPrime(p._1 + p._2))
+  }
+
+  def sumOfSomethingElse(n: Int): Seq[(Int, Int)] = {
+    for {
+      i <- 1 until n
+      j <- 1 until i
+      if isPrime(i + j)
+    } yield (i,j)
   }
 
   def isPrime(n :Int): Boolean = {
