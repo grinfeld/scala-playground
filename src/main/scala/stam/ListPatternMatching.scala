@@ -49,8 +49,40 @@ object ListPatternMatching {
 
     println(sumOfSomething(5))
     println(sumOfSomethingElse(5))
+
+    println(new Poly(1 -> 2, 3 -> 4) + new Poly(0 -> 3, 1 -> 2))
+
+    var mnem = Map('2' -> "ABC", '3' -> "DEF", '4' -> "GHI", '5' -> "JKL", '6' -> "MNO", '7' -> "PQRS", '8' -> "TUV", '9' -> "WYZ")
+
+    def charCode(): Map[Char, Char] = {
+      for ((digit, str) <- mnem; ltr <- str) yield ltr -> digit
+    }
+
+    def wordCode(word: String): String = {
+      word.toUpperCase map charCode()
+      // same as above word.toUpperCase.map(c => charCode()(c))
+    }
+    println(wordCode("Java"))
   }
 
+
+
+  class Poly(val terms0: Map[Int, Double]) {
+    def this(bindings: (Int, Double)*) = this(bindings.toMap)
+    val terms: Map[Int, Double] = terms0 withDefaultValue(0.0)
+    def + (other: Poly): Poly = {
+      new Poly(terms ++ other.terms.map(adjust))
+    }
+
+    def adjust(term: (Int, Double)) : (Int, Double) = {
+      val (exp, coeff) = term
+      exp -> (coeff + terms(exp))
+    }
+
+    override def toString: String = {
+      (for ((exp, coeff) <- terms.toList.sorted.reverse) yield coeff + "x^" + exp) mkString " + "
+    }
+  }
 
   def sumOfSomething(n: Int): Seq[(Int, Int)] = {
     (1 until n).flatMap(i =>
