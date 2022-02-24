@@ -1,7 +1,5 @@
 package stam
 
-import stam.Modeling.MineColor.InnerCustomColor
-
 object Modeling extends App {
 
   sealed trait GueseColor
@@ -14,7 +12,7 @@ object Modeling extends App {
 
   sealed trait MineColor
   object MineColor {
-    case class InnerCustomColor private[MineColor](red: Int, green: Int, blue: Int) extends MineColor
+    abstract class InnerCustomColor private[MineColor](val red: Int, val green: Int, val blue: Int) extends MineColor
     case class Red() extends InnerCustomColor(red = 1, green = 0, blue = 0)
     case class Green() extends InnerCustomColor(red = 0, green = 1, blue = 0)
     case class Blue() extends InnerCustomColor(red = 0, green = 0, blue = 1)
@@ -28,7 +26,7 @@ object Modeling extends App {
   sealed trait MineAgeBracket
 
   object MineAgeBracket {
-    case class AgeRange private[MineAgeBracket](from: Int, toExclusive: Int) extends MineAgeBracket
+    abstract class AgeRange private[MineAgeBracket](val from: Int, val toExclusive: Int) extends MineAgeBracket
     case class Baby() extends AgeRange(from = 0, toExclusive = 13)
     case class Child() extends AgeRange(from = 13, toExclusive = 18)
     case class YoungAdult() extends AgeRange(from = 18, toExclusive = 21)
